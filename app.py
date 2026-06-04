@@ -122,15 +122,16 @@ if st.session_state.last_response:
     csv_match = re.search(r"```csv\n(.*?)\n```", st.session_state.last_response, re.DOTALL)
     
     if csv_match:
-        csv_data = csv_match.group(1)
+        csv_data = csv_match.group(1).strip()
         
-        # ファイル名を作成 (yyyy_mm_dd.csv)
+        bom_csv_data = "\ufeff" + csv_data
+        
         filename = datetime.now().strftime("%Y_%m_%d.csv")
         
         st.markdown("#### 📊 データ出力")
         st.download_button(
             label="📥 CSVファイルをダウンロード",
-            data=csv_data,
+            data=bom_csv_data,  
             file_name=filename,
             mime="text/csv",
             use_container_width=True
