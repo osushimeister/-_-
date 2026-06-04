@@ -6,11 +6,11 @@ from datetime import datetime
 
 # --- 設定 ---
 st.set_page_config(page_title="馬鈴薯収穫支援システム", layout="wide")
-st.title("🥔 馬鈴薯収穫支援スマートグラス・バックエンド")
+st.title("🥔 馬鈴薯収穫支援システム")
 
 # サイドバーでAPIキーと設定
 with st.sidebar:
-    api_key = st.text_input("Gemini API Keyを入力してください", type="password")
+    api_key = st.secrets["GEMINI_API_KEY"]
     st.info("フィードバック履歴はセッション内で保持されます。")
     if st.button("履歴をクリア"):
         st.session_state.chat_history = []
