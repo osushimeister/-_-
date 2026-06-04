@@ -107,11 +107,38 @@ if uploaded_file:
             st.error(f"❌ 解析中にエラーが発生しました: {str(e)}")
             st.info("ヒント: APIキーが正しいか、動画サイズが大きすぎないか確認してください。")
 
-# 結果の表示
+# --- 結果の表示セクション ---
 if st.session_state.last_response:
     st.markdown("---")
     st.markdown("### 📋 AI解析結果")
     st.markdown(st.session_state.last_response)
+
+    # --- ここからCSV抽出・ダウンロード機能 ---
+    import re
+
+    # AIの回答からCSVブロック (```csv ... ```) を抽出
+    csv_match = re.search(r"```csv\n(.*?)\n```", st.session_state.last_response, re.DOTALL)
+    
+    if csv_match:
+        csv_data = csv_match.group(1)
+        
+        # ファイル名を作成 (yyyy_mm_dd.csv)
+        filename = datetime.now().strftime("%Y_%m_%d.csv")
+        
+        st.markdown("#### 📊 データ出力")
+        st.download_button(
+            label="📥 CSVファイルをダウンロード",
+            data=csv_data,
+            file_name=filename,
+            mime="text/csv",
+            use_container_width=True
+        )
+        
+        # プレビューとして表形式でも表示
+        with st.expander("CSVプレビュー"):
+            from io import StringIO
+            df = pd.read_csv(StringIO(csv_data))
+            st.dataframe(df)
 
     # フィードバックループ
     st.markdown("---")
