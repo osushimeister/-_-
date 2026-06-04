@@ -87,7 +87,7 @@ if uploaded_file:
                     st.stop()
 
             with st.spinner("3. AIが映像を解析してレポートを作成中..."):
-                model = genai.GenerativeModel(model_name="gemini-1.5-flash-latest", system_instruction=SYSTEM_PROMPT)
+                model = genai.GenerativeModel(model_name="gemini-3-flash-preview", system_instruction=SYSTEM_PROMPT)
                 
                 # プロンプトの組み立て（履歴がある場合は追加）
                 prompt_content = ["この動画を作業モデルに基づいて解析してください。"]
