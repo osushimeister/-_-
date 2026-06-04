@@ -17,6 +17,11 @@ if not api_key:
 
 # --- Geminiの初期化 ---
 genai.configure(api_key=api_key)
+try:
+    available_models = [m.name for m in genai.list_models()]
+    st.write("利用可能なモデル一覧:", available_models)
+except Exception as e:
+    st.error(f"モデル一覧の取得に失敗しました: {e}")
 
 # システムプロンプト（指示の核）
 SYSTEM_PROMPT = """
