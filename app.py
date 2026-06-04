@@ -6,7 +6,7 @@ from datetime import datetime
 
 # --- 基本設定 ---
 st.set_page_config(page_title="馬鈴薯収穫支援システム", layout="wide", page_icon="🥔")
-st.title("🥔 馬鈴薯収穫支援スマートグラス・エンジン")
+st.title("🥔 馬鈴薯収穫支援デモシステム")
 
 # --- APIキーの取得 (Secrets優先、なければサイドバー) ---
 api_key = st.secrets.get("GEMINI_API_KEY") or st.sidebar.text_input("Gemini API Keyを入力", type="password")
@@ -17,11 +17,11 @@ if not api_key:
 
 # --- Geminiの初期化 ---
 genai.configure(api_key=api_key)
-try:
-    available_models = [m.name for m in genai.list_models()]
-    st.write("利用可能なモデル一覧:", available_models)
-except Exception as e:
-    st.error(f"モデル一覧の取得に失敗しました: {e}")
+#try:
+#    available_models = [m.name for m in genai.list_models()]
+#    st.write("利用可能なモデル一覧:", available_models)
+#except Exception as e:
+#    st.error(f"モデル一覧の取得に失敗しました: {e}")
 
 # システムプロンプト（指示の核）
 SYSTEM_PROMPT = """
@@ -116,7 +116,7 @@ if st.session_state.last_response:
     # フィードバックループ
     st.markdown("---")
     st.markdown("### 🔄 判定が違いますか？（フィードバック）")
-    feedback = st.text_input("AIへの修正指示", placeholder="例：9秒以降はタンクなので工程②のままです")
+    feedback = st.text_input("AIへの修正指示", placeholder="例：xx秒における工程推定が間違っています。正しくは，XXです")
     
     if st.button("指示を保存して再学習させる"):
         if feedback:
