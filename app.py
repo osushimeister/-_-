@@ -2,7 +2,10 @@ import streamlit as st
 import google.generativeai as genai
 import time
 import os
+import pandas as pd  
+from io import StringIO  
 from datetime import datetime
+import re 
 
 # --- 基本設定 ---
 st.set_page_config(page_title="馬鈴薯収穫支援システム", layout="wide", page_icon="🥔")
@@ -114,7 +117,6 @@ if st.session_state.last_response:
     st.markdown(st.session_state.last_response)
 
     # --- ここからCSV抽出・ダウンロード機能 ---
-    import re
 
     # AIの回答からCSVブロック (```csv ... ```) を抽出
     csv_match = re.search(r"```csv\n(.*?)\n```", st.session_state.last_response, re.DOTALL)
